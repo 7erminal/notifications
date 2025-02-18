@@ -1,0 +1,926 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "beego Test API",
+        "description": "beego has a very cool tools to autogenerate documents for your API\n",
+        "version": "1.0.0",
+        "termsOfService": "http://beego.me/",
+        "contact": {
+            "email": "astaxie@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "basePath": "/v1",
+    "paths": {
+        "/notifications/": {
+            "get": {
+                "tags": [
+                    "notifications"
+                ],
+                "description": "get Notifications\n\u003cbr\u003e",
+                "operationId": "NotificationsController.Get All",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "query",
+                        "description": "Filter. e.g. col1:v1,col2:v2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Fields returned. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortby",
+                        "description": "Sorted-by fields. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "order",
+                        "description": "Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit the size of result set. Must be an integer",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Start position of result set. Must be an integer",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Notifications"
+                        }
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "notifications"
+                ],
+                "description": "create Notifications\n\u003cbr\u003e",
+                "operationId": "NotificationsController.Post",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for Notifications content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.NotificationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{int} responses.NotificationResponse"
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
+            }
+        },
+        "/notifications/add-notification-category": {
+            "post": {
+                "tags": [
+                    "notifications"
+                ],
+                "description": "create Notifications\n\u003cbr\u003e",
+                "operationId": "NotificationsController.Post Notification Category",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for Notifications content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.NotificationCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{int} responses.NotificationCategoryResponse"
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
+            }
+        },
+        "/notifications/add-notification-message": {
+            "post": {
+                "tags": [
+                    "notifications"
+                ],
+                "description": "create Notification Message\n\u003cbr\u003e",
+                "operationId": "NotificationsController.Post Notification Message",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for Notifications content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.NotificationMessageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{int} responses.NotificationCategoryResponse"
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
+            }
+        },
+        "/notifications/count/{id}": {
+            "get": {
+                "tags": [
+                    "notifications"
+                ],
+                "description": "get notification count\n\u003cbr\u003e",
+                "operationId": "NotificationsController.Get User notification count",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "query",
+                        "description": "Filter. e.g. col1:v1,col2:v2 ...",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.StringResponseDTO"
+                        }
+                    },
+                    "403": {
+                        "description": ":id is empty"
+                    }
+                }
+            }
+        },
+        "/notifications/get-all-notification-categories": {
+            "get": {
+                "tags": [
+                    "notifications"
+                ],
+                "description": "get Notifications\n\u003cbr\u003e",
+                "operationId": "NotificationsController.Get All Notification Categories",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "query",
+                        "description": "Filter. e.g. col1:v1,col2:v2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Fields returned. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortby",
+                        "description": "Sorted-by fields. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "order",
+                        "description": "Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit the size of result set. Must be an integer",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Start position of result set. Must be an integer",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Notifications"
+                        }
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/notifications/get-all-notification-messages": {
+            "get": {
+                "tags": [
+                    "notifications"
+                ],
+                "description": "get Notifications\n\u003cbr\u003e",
+                "operationId": "NotificationsController.Get All Notification Messages",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "query",
+                        "description": "Filter. e.g. col1:v1,col2:v2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Fields returned. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortby",
+                        "description": "Sorted-by fields. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "order",
+                        "description": "Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit the size of result set. Must be an integer",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Start position of result set. Must be an integer",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Notifications"
+                        }
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/notifications/get-user-notifications/{id}": {
+            "get": {
+                "tags": [
+                    "notifications"
+                ],
+                "description": "get Notifications\n\u003cbr\u003e",
+                "operationId": "NotificationsController.Get All User Not",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The key for staticblock",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "query",
+                        "description": "Filter. e.g. col1:v1,col2:v2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Fields returned. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortby",
+                        "description": "Sorted-by fields. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "order",
+                        "description": "Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit the size of result set. Must be an integer",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Start position of result set. Must be an integer",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.NotificationsResponse"
+                        }
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/notifications/update-read-status/{id}": {
+            "put": {
+                "tags": [
+                    "notifications"
+                ],
+                "description": "update the Notifications\n\u003cbr\u003e",
+                "operationId": "NotificationsController.Update notification read status",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for Notifications content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.NotificationUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Notifications"
+                        }
+                    },
+                    "403": {
+                        "description": ":id is not int"
+                    }
+                }
+            }
+        },
+        "/notifications/{id}": {
+            "get": {
+                "tags": [
+                    "notifications"
+                ],
+                "description": "get Notifications by id\n\u003cbr\u003e",
+                "operationId": "NotificationsController.Get One",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The key for staticblock",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Notifications"
+                        }
+                    },
+                    "403": {
+                        "description": ":id is empty"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "notifications"
+                ],
+                "description": "delete the Notifications\n\u003cbr\u003e",
+                "operationId": "NotificationsController.Delete",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to delete",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} delete success!"
+                    },
+                    "403": {
+                        "description": "id is empty"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "242.\u003cnil\u003e.0x14000470ed0": {
+            "title": "0x14000470ed0",
+            "type": "object"
+        },
+        "models.Notification_category": {
+            "title": "Notification_category",
+            "type": "object",
+            "properties": {
+                "Active": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Category": {
+                    "type": "string"
+                },
+                "CreatedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "DateCreated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "DateModified": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "ModifiedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "NotificationCategoryId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "models.Notification_messages": {
+            "title": "Notification_messages",
+            "type": "object",
+            "properties": {
+                "Active": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Code": {
+                    "$ref": "#/definitions/models.Status"
+                },
+                "CreatedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "DateCreated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "DateModified": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Labels": {
+                    "type": "string"
+                },
+                "Message": {
+                    "type": "string"
+                },
+                "ModifiedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "NotificationMessageId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Service": {
+                    "$ref": "#/definitions/models.Services"
+                }
+            }
+        },
+        "models.Notification_status": {
+            "title": "Notification_status",
+            "type": "object",
+            "properties": {
+                "Active": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "CreatedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "DateCreated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "DateModified": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "ModifiedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "NotificationStatusId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Status": {
+                    "type": "string"
+                },
+                "StatusCode": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Notifications": {
+            "title": "Notifications",
+            "type": "object",
+            "properties": {
+                "Category": {
+                    "$ref": "#/definitions/models.Notification_category"
+                },
+                "CreatedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "DateCreated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "DateModified": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "ModifiedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "NotificationFor": {
+                    "$ref": "#/definitions/models.Users"
+                },
+                "NotificationId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "NotificationMessage": {
+                    "type": "string"
+                },
+                "NotificationMessageId": {
+                    "$ref": "#/definitions/models.Notification_messages"
+                },
+                "ReadDate": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Service": {
+                    "$ref": "#/definitions/models.Services"
+                },
+                "Status": {
+                    "$ref": "#/definitions/models.Notification_status"
+                }
+            }
+        },
+        "models.Roles": {
+            "title": "Roles",
+            "type": "object",
+            "properties": {
+                "Active": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "CreatedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "DateCreated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "DateModified": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "ModifiedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Role": {
+                    "type": "string"
+                },
+                "RoleId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "models.Services": {
+            "title": "Services",
+            "type": "object",
+            "properties": {
+                "Active": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "CreatedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "DateCreated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "DateModified": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "ModifiedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "ServiceDescription": {
+                    "type": "string"
+                },
+                "ServiceId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "ServiceName": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Status": {
+            "title": "Status",
+            "type": "object",
+            "properties": {
+                "Active": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "CreatedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "DateCreated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "DateModified": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "ModifiedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Status": {
+                    "type": "string"
+                },
+                "StatusCode": {
+                    "type": "string"
+                },
+                "StatusId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "models.Users": {
+            "title": "Users",
+            "type": "object",
+            "properties": {
+                "Active": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Address": {
+                    "type": "string"
+                },
+                "CreatedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "DateCreated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "DateModified": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Dob": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Email": {
+                    "type": "string"
+                },
+                "FullName": {
+                    "type": "string"
+                },
+                "Gender": {
+                    "type": "string"
+                },
+                "IdNumber": {
+                    "type": "string"
+                },
+                "IdType": {
+                    "type": "string"
+                },
+                "ImagePath": {
+                    "type": "string"
+                },
+                "IsVerified": {
+                    "type": "boolean"
+                },
+                "MaritalStatus": {
+                    "type": "string"
+                },
+                "ModifiedBy": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Password": {
+                    "type": "string"
+                },
+                "PhoneNumber": {
+                    "type": "string"
+                },
+                "Role": {
+                    "$ref": "#/definitions/models.Roles"
+                },
+                "UserDetails": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "UserId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "UserType": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Username": {
+                    "type": "string"
+                }
+            }
+        },
+        "requests.NotificationCategoryRequest": {
+            "title": "NotificationCategoryRequest",
+            "type": "object",
+            "properties": {
+                "CategoryName": {
+                    "type": "string"
+                },
+                "Description": {
+                    "type": "string"
+                }
+            }
+        },
+        "requests.NotificationMessageRequest": {
+            "title": "NotificationMessageRequest",
+            "type": "object",
+            "properties": {
+                "Labels": {
+                    "type": "string"
+                },
+                "Message": {
+                    "type": "string"
+                },
+                "ServiceId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "StatusId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "requests.NotificationRequest": {
+            "title": "NotificationRequest",
+            "type": "object",
+            "properties": {
+                "CategoryId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Params": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ServiceId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "StatusId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "UserId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "requests.NotificationUpdateRequest": {
+            "title": "NotificationUpdateRequest",
+            "type": "object",
+            "properties": {
+                "Status": {
+                    "type": "string"
+                },
+                "UserId": {
+                    "type": "string"
+                }
+            }
+        },
+        "responses.NotificationsResponse": {
+            "title": "NotificationsResponse",
+            "type": "object",
+            "properties": {
+                "Notifications": {
+                    "$ref": "#/definitions/242.\u003cnil\u003e.0x14000470ed0"
+                },
+                "StatusCode": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "StatusDesc": {
+                    "type": "string"
+                }
+            }
+        },
+        "responses.StringResponseDTO": {
+            "title": "StringResponseDTO",
+            "type": "object",
+            "properties": {
+                "StatusCode": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "StatusDesc": {
+                    "type": "string"
+                },
+                "Value": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "notifications",
+            "description": "NotificationsController operations for Notifications\n"
+        }
+    ]
+}

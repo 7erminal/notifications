@@ -11,14 +11,14 @@ import (
 )
 
 type Notification_status struct {
-	NotificationId int64     `orm:"auto"`
-	Status         string    `orm:"size(80)"`
-	StatusCode     string    `orm:"size(80)"`
-	DateCreated    time.Time `orm:"type(datetime)"`
-	DateModified   time.Time `orm:"type(datetime)"`
-	CreatedBy      int
-	ModifiedBy     int
-	Active         int
+	NotificationStatusId int64     `orm:"auto"`
+	Status               string    `orm:"size(80)"`
+	StatusCode           string    `orm:"size(80)"`
+	DateCreated          time.Time `orm:"type(datetime)"`
+	DateModified         time.Time `orm:"type(datetime)"`
+	CreatedBy            int
+	ModifiedBy           int
+	Active               int
 }
 
 func init() {
@@ -37,7 +37,7 @@ func AddNotification_status(m *Notification_status) (id int64, err error) {
 // Id doesn't exist
 func GetNotification_statusById(id int64) (v *Notification_status, err error) {
 	o := orm.NewOrm()
-	v = &Notification_status{NotificationId: id}
+	v = &Notification_status{NotificationStatusId: id}
 	if err = o.QueryTable(new(Notification_status)).Filter("NotificationId", id).RelatedSel().One(v); err == nil {
 		return v, nil
 	}
@@ -133,7 +133,7 @@ func GetAllNotification_status(query map[string]string, fields []string, sortby 
 // the record to be updated doesn't exist
 func UpdateNotification_statusById(m *Notification_status) (err error) {
 	o := orm.NewOrm()
-	v := Notification_status{NotificationId: m.NotificationId}
+	v := Notification_status{NotificationStatusId: m.NotificationStatusId}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
@@ -148,11 +148,11 @@ func UpdateNotification_statusById(m *Notification_status) (err error) {
 // the record to be deleted doesn't exist
 func DeleteNotification_status(id int64) (err error) {
 	o := orm.NewOrm()
-	v := Notification_status{NotificationId: id}
+	v := Notification_status{NotificationStatusId: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&Notification_status{NotificationId: id}); err == nil {
+		if num, err = o.Delete(&Notification_status{NotificationStatusId: id}); err == nil {
 			fmt.Println("Number of records deleted in database:", num)
 		}
 	}

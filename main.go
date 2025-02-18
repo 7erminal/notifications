@@ -30,6 +30,7 @@ func main() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
+	orm.Debug = true
 
 	beego.Run()
 }

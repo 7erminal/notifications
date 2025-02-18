@@ -11,8 +11,8 @@ import (
 )
 
 type Users struct {
-	UserId        int64 `orm:"column(user_id);auto"`
-	UserDetails   int64
+	UserId        int64     `orm:"column(user_id);auto"`
+	UserDetails   int64     `orm:"column(user_details_id);size(200);null"`
 	ImagePath     string    `orm:"column(image_path);size(200);null"`
 	UserType      int       `orm:"column(user_type);null"`
 	FullName      string    `orm:"column(full_name);size(255)"`
