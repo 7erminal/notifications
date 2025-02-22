@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/beego/beego/v2/client/orm"
+	"github.com/beego/beego/v2/core/logs"
 )
 
 type Notifications struct {
@@ -17,7 +18,7 @@ type Notifications struct {
 	Category              *Notification_category `orm:"rel(fk);column(category_id)"`
 	Service               *Services              `orm:"rel(fk);column(service_id)"`
 	NotificationFor       *Users                 `orm:"rel(fk);column(notification_for);null"`
-	Role                  *Roles                 `orm:"rel(fk);column(role_id);"`
+	Role                  *Roles                 `orm:"rel(fk);column(role_id);null"`
 	NotificationMessageId *Notification_messages `orm:"rel(fk);column(notification_message_id)"`
 	ReadDate              time.Time              `orm:"type(datetime)"`
 	DateCreated           time.Time              `orm:"type(datetime)"`
@@ -70,15 +71,26 @@ func GetNotificationCount(query map[string]string, user Users) (c int64, err err
 
 // GetAllNotifications retrieves all Notifications matches certain condition. Returns empty list if
 // no records exist
-func GetAllNotifications(query map[string]string, fields []string, sortby []string, order []string,
+func GetAllNotifications(query map[string]string, exclude map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
+	cond := orm.NewCondition()
+	cond1 := cond.Or("notification_for__isnull", true)
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(Notifications))
+
+	qs.SetCond(cond1)
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
 		k = strings.Replace(k, ".", "__", -1)
 		qs = qs.Filter(k, v)
+	}
+	// exclude k=v
+	for k, v := range exclude {
+		// rewrite dot-notation to Object__Attribute
+		k = strings.Replace(k, ".", "__", -1)
+		qs = qs.Exclude(k, v)
+		logs.Info("Condition set")
 	}
 	// order by:
 	var sortFields []string

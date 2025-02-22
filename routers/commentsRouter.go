@@ -63,6 +63,15 @@ func init() {
 
     beego.GlobalControllerRouter["notification_service/controllers:NotificationsController"] = append(beego.GlobalControllerRouter["notification_service/controllers:NotificationsController"],
         beego.ControllerComments{
+            Method: "GetUserNotificationCount",
+            Router: `/count/:id`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["notification_service/controllers:NotificationsController"] = append(beego.GlobalControllerRouter["notification_service/controllers:NotificationsController"],
+        beego.ControllerComments{
             Method: "GetAllNoficationCategories",
             Router: `/get-all-notification-categories`,
             AllowHTTPMethods: []string{"get"},

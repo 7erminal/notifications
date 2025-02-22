@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"notification_service/models"
 	"notification_service/structs/requests"
 	"notification_service/structs/responses"
@@ -154,6 +155,7 @@ func (c *NotificationsController) GetOne() {
 // @Description get Notifications
 // @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
 // @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
+// @Param	exclude	query	string	false	"Exclude. e.g. col1:v1,col2:v2 ..."
 // @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
 // @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
@@ -166,7 +168,8 @@ func (c *NotificationsController) GetAll() {
 	var sortby []string
 	var order []string
 	var query = make(map[string]string)
-	var limit int64 = 10
+	var exclude = make(map[string]string)
+	var limit int64 = 100
 	var offset int64
 
 	// fields: col1,col2,entity.col3
@@ -202,10 +205,24 @@ func (c *NotificationsController) GetAll() {
 			query[k] = v
 		}
 	}
+
+	// query: k:v,k:v
+	if v := c.GetString("exclude"); v != "" {
+		for _, cond := range strings.Split(v, ",") {
+			kv := strings.SplitN(cond, ":", 2)
+			if len(kv) != 2 {
+				c.Data["json"] = errors.New("Error: invalid query key/value pair")
+				c.ServeJSON()
+				return
+			}
+			k, v := kv[0], kv[1]
+			exclude[k] = v
+		}
+	}
 	message := "An error occurred adding this audit request"
 	statusCode := 308
 
-	l, err := models.GetAllNotifications(query, fields, sortby, order, offset, limit)
+	l, err := models.GetAllNotifications(query, exclude, fields, sortby, order, offset, limit)
 	if err != nil {
 		logs.Error("There was an error fetching notifications ", err.Error())
 		message = "Error fetching notifications"
@@ -213,7 +230,8 @@ func (c *NotificationsController) GetAll() {
 		resp := responses.NotificationsResponse{StatusCode: statusCode, Notifications: nil, StatusDesc: message}
 		c.Data["json"] = resp
 	} else {
-		c.Data["json"] = l
+		logs.Info("Notifications fetched successfully")
+		fmt.Printf("Value of v: %+v\n", l)
 		c.Ctx.Output.SetStatus(200)
 		statusCode = 200
 		message = "Notifications fetched successfully"
@@ -228,6 +246,7 @@ func (c *NotificationsController) GetAll() {
 // @Description get Notifications
 // @Param	id		path 	string	true		"The key for staticblock"
 // @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
+// @Param	exclude	query	string	false	"Exclude. e.g. col1:v1,col2:v2 ..."
 // @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
 // @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
 // @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
@@ -244,7 +263,7 @@ func (c *NotificationsController) GetAllUserNotifications() {
 	var sortby []string
 	var order []string
 	var query = make(map[string]string)
-	var limit int64 = 20
+	var limit int64 = 50
 	var offset int64
 
 	// fields: col1,col2,entity.col3

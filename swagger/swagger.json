@@ -37,6 +37,12 @@
                     },
                     {
                         "in": "query",
+                        "name": "exclude",
+                        "description": "Exclude. e.g. col1:v1,col2:v2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
                         "name": "sortby",
                         "description": "Sorted-by fields. e.g. col1,col2 ...",
                         "type": "string"
@@ -322,6 +328,12 @@
                     },
                     {
                         "in": "query",
+                        "name": "exclude",
+                        "description": "Exclude. e.g. col1:v1,col2:v2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
                         "name": "fields",
                         "description": "Fields returned. e.g. col1,col2 ...",
                         "type": "string"
@@ -457,8 +469,8 @@
         }
     },
     "definitions": {
-        "242.\u003cnil\u003e.0x140004b56f8": {
-            "title": "0x140004b56f8",
+        "242.\u003cnil\u003e.0x140004cbbc0": {
+            "title": "0x140004cbbc0",
             "type": "object"
         },
         "models.Notification_category": {
@@ -889,7 +901,7 @@
             "type": "object",
             "properties": {
                 "Notifications": {
-                    "$ref": "#/definitions/242.\u003cnil\u003e.0x140004b56f8"
+                    "$ref": "#/definitions/242.\u003cnil\u003e.0x140004cbbc0"
                 },
                 "StatusCode": {
                     "type": "integer",
