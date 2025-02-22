@@ -48,66 +48,69 @@ func (c *NotificationsController) Post() {
 	status := "UNREAD"
 	message := "An error occurred adding this audit request"
 	statusCode := 308
-	if user, err := models.GetUsersById(v.UserId); err == nil {
-		if service, err := models.GetServicesById(v.ServiceId); err == nil {
-			category, err := models.GetNotification_categoryById(v.CategoryId)
-			if err != nil {
-				logs.Info("Category fetched is ", category)
-			}
-			if statusC, err := models.GetStatusById(v.StatusId); err == nil {
-				if nMessage, err := models.GetNotification_messagesByCodeAndStatus(*statusC, *service); err == nil {
-					tnMessage := nMessage.Message
-					configuredLabels := strings.Split(nMessage.Labels, ",")
-					// Insert values
-					if v.Params != nil {
-						for i, mn := range configuredLabels {
-							logs.Info("Label:: ", mn)
-							logs.Info("Value:: ", v.Params[i])
-							tnMessage = strings.Replace(tnMessage, "["+mn+"]", v.Params[i], -1)
-						}
+	var user *models.Users
+	if user_, err := models.GetUsersById(v.UserId); err == nil {
+		user = user_
+	} else {
+		logs.Info("Error getting user ", err.Error())
+		message = "Error getting user"
+		statusCode = 608
+		resp := responses.NotificationResponse{StatusCode: statusCode, Notification: nil, StatusDesc: message}
+		c.Data["json"] = resp
+	}
+	if service, err := models.GetServicesByName(v.Service); err == nil {
+		category, err := models.GetNotification_categoryByName(v.Category)
+		if err != nil {
+			logs.Info("Category fetched is ", category)
+		}
+		if statusC, err := models.GetStatusByName(v.Status); err == nil {
+			if nMessage, err := models.GetNotification_messagesByCodeAndStatus(*statusC, *service); err == nil {
+				tnMessage := nMessage.Message
+				configuredLabels := strings.Split(nMessage.Labels, ",")
+				// Insert values
+				if v.Params != nil {
+					for i, mn := range configuredLabels {
+						logs.Info("Label:: ", mn)
+						logs.Info("Value:: ", v.Params[i])
+						tnMessage = strings.Replace(tnMessage, "["+mn+"]", v.Params[i], -1)
 					}
+				}
 
-					if notificationStatus, err := models.GetNotification_statusByCode(status); err == nil {
-						notificationResp := models.Notifications{NotificationMessage: tnMessage, NotificationMessageId: nMessage, Category: category, Status: notificationStatus, Service: service, NotificationFor: user}
+				if notificationStatus, err := models.GetNotification_statusByCode(status); err == nil {
+					logs.Info("User is ", user)
+					notificationResp := models.Notifications{NotificationMessage: tnMessage, NotificationMessageId: nMessage, Category: category, Status: notificationStatus, Service: service, NotificationFor: user}
 
-						if _, err := models.AddNotifications(&notificationResp); err == nil {
-							c.Ctx.Output.SetStatus(200)
-							statusCode = 200
-							message = "Notification inserted successfully"
-							resp := responses.NotificationResponse{StatusCode: statusCode, Notification: &notificationResp, StatusDesc: message}
-							c.Data["json"] = resp
-						} else {
-							logs.Info("Error inserting notification ", err.Error())
-							message = "Error inserting notification"
-							statusCode = 608
-							resp := responses.NotificationResponse{StatusCode: statusCode, Notification: nil, StatusDesc: message}
-							c.Data["json"] = resp
-						}
+					if _, err := models.AddNotifications(&notificationResp); err == nil {
+						c.Ctx.Output.SetStatus(200)
+						statusCode = 200
+						message = "Notification inserted successfully"
+						resp := responses.NotificationResponse{StatusCode: statusCode, Notification: &notificationResp, StatusDesc: message}
+						c.Data["json"] = resp
 					} else {
-						logs.Info("Error getting notification ", err.Error())
-						message = "Error inserting notification. Invalid status."
+						logs.Info("Error inserting notification ", err.Error())
+						message = "Error inserting notification"
 						statusCode = 608
 						resp := responses.NotificationResponse{StatusCode: statusCode, Notification: nil, StatusDesc: message}
 						c.Data["json"] = resp
 					}
+				} else {
+					logs.Info("Error getting notification ", err.Error())
+					message = "Error inserting notification. Invalid status."
+					statusCode = 608
+					resp := responses.NotificationResponse{StatusCode: statusCode, Notification: nil, StatusDesc: message}
+					c.Data["json"] = resp
 				}
-			} else {
-				logs.Info("Error getting notification ", err.Error())
-				message = "Error inserting notification. Invalid status."
-				statusCode = 608
-				resp := responses.NotificationResponse{StatusCode: statusCode, Notification: nil, StatusDesc: message}
-				c.Data["json"] = resp
 			}
 		} else {
-			logs.Info("Error getting service ", err.Error())
-			message = "Error getting service"
+			logs.Info("Error getting notification ", err.Error())
+			message = "Error inserting notification. Invalid status."
 			statusCode = 608
 			resp := responses.NotificationResponse{StatusCode: statusCode, Notification: nil, StatusDesc: message}
 			c.Data["json"] = resp
 		}
 	} else {
-		logs.Info("Error getting user ", err.Error())
-		message = "Error getting user"
+		logs.Info("Error getting service ", err.Error())
+		message = "Error getting service"
 		statusCode = 608
 		resp := responses.NotificationResponse{StatusCode: statusCode, Notification: nil, StatusDesc: message}
 		c.Data["json"] = resp

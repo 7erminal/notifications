@@ -457,8 +457,8 @@
         }
     },
     "definitions": {
-        "242.\u003cnil\u003e.0x14000470ed0": {
-            "title": "0x14000470ed0",
+        "242.\u003cnil\u003e.0x140004b56f8": {
+            "title": "0x140004b56f8",
             "type": "object"
         },
         "models.Notification_category": {
@@ -614,6 +614,9 @@
                 "ReadDate": {
                     "type": "string",
                     "format": "datetime"
+                },
+                "Role": {
+                    "$ref": "#/definitions/models.Roles"
                 },
                 "Service": {
                     "$ref": "#/definitions/models.Services"
@@ -848,9 +851,8 @@
             "title": "NotificationRequest",
             "type": "object",
             "properties": {
-                "CategoryId": {
-                    "type": "integer",
-                    "format": "int64"
+                "Category": {
+                    "type": "string"
                 },
                 "Params": {
                     "type": "array",
@@ -858,13 +860,11 @@
                         "type": "string"
                     }
                 },
-                "ServiceId": {
-                    "type": "integer",
-                    "format": "int64"
+                "Service": {
+                    "type": "string"
                 },
-                "StatusId": {
-                    "type": "integer",
-                    "format": "int64"
+                "Status": {
+                    "type": "string"
                 },
                 "UserId": {
                     "type": "integer",
@@ -889,7 +889,7 @@
             "type": "object",
             "properties": {
                 "Notifications": {
-                    "$ref": "#/definitions/242.\u003cnil\u003e.0x14000470ed0"
+                    "$ref": "#/definitions/242.\u003cnil\u003e.0x140004b56f8"
                 },
                 "StatusCode": {
                     "type": "integer",

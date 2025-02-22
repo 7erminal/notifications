@@ -327,8 +327,8 @@ paths:
         "403":
           description: :id is not int
 definitions:
-  242.<nil>.0x14000470ed0:
-    title: "0x14000470ed0"
+  242.<nil>.0x140004b56f8:
+    title: "0x140004b56f8"
     type: object
   models.Notification_category:
     title: Notification_category
@@ -442,6 +442,8 @@ definitions:
       ReadDate:
         type: string
         format: datetime
+      Role:
+        $ref: '#/definitions/models.Roles'
       Service:
         $ref: '#/definitions/models.Services'
       Status:
@@ -607,19 +609,16 @@ definitions:
     title: NotificationRequest
     type: object
     properties:
-      CategoryId:
-        type: integer
-        format: int64
+      Category:
+        type: string
       Params:
         type: array
         items:
           type: string
-      ServiceId:
-        type: integer
-        format: int64
-      StatusId:
-        type: integer
-        format: int64
+      Service:
+        type: string
+      Status:
+        type: string
       UserId:
         type: integer
         format: int64
@@ -636,7 +635,7 @@ definitions:
     type: object
     properties:
       Notifications:
-        $ref: '#/definitions/242.<nil>.0x14000470ed0'
+        $ref: '#/definitions/242.<nil>.0x140004b56f8'
       StatusCode:
         type: integer
         format: int64

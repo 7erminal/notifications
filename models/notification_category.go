@@ -44,6 +44,17 @@ func GetNotification_categoryById(id int64) (v *Notification_category, err error
 	return nil, err
 }
 
+// GetNotification_categoryById retrieves Notification_category by Id. Returns error if
+// Id doesn't exist
+func GetNotification_categoryByName(cat string) (v *Notification_category, err error) {
+	o := orm.NewOrm()
+	v = &Notification_category{}
+	if err = o.QueryTable(new(Notification_category)).Filter("Category", cat).RelatedSel().One(v); err == nil {
+		return v, nil
+	}
+	return nil, err
+}
+
 // GetAllNotification_category retrieves all Notification_category matches certain condition. Returns empty list if
 // no records exist
 func GetAllNotification_category(query map[string]string, fields []string, sortby []string, order []string,

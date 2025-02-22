@@ -1,11 +1,11 @@
 package requests
 
 type NotificationRequest struct {
-	UserId     int64
-	ServiceId  int64
-	StatusId   int64
-	CategoryId int64
-	Params     []string
+	UserId   int64
+	Service  string
+	Status   string
+	Category string
+	Params   []string
 }
 
 type NotificationCategoryRequest struct {

@@ -16,7 +16,8 @@ type Notifications struct {
 	Status                *Notification_status   `orm:"rel(fk);column(status);"`
 	Category              *Notification_category `orm:"rel(fk);column(category_id)"`
 	Service               *Services              `orm:"rel(fk);column(service_id)"`
-	NotificationFor       *Users                 `orm:"rel(fk);column(notification_for)"`
+	NotificationFor       *Users                 `orm:"rel(fk);column(notification_for);null"`
+	Role                  *Roles                 `orm:"rel(fk);column(role_id);"`
 	NotificationMessageId *Notification_messages `orm:"rel(fk);column(notification_message_id)"`
 	ReadDate              time.Time              `orm:"type(datetime)"`
 	DateCreated           time.Time              `orm:"type(datetime)"`

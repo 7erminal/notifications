@@ -44,6 +44,17 @@ func GetStatusById(id int64) (v *Status, err error) {
 	return nil, err
 }
 
+// GetStatusById retrieves Status by Id. Returns error if
+// Id doesn't exist
+func GetStatusByName(stat string) (v *Status, err error) {
+	o := orm.NewOrm()
+	v = &Status{}
+	if err = o.QueryTable(new(Status)).Filter("Status", stat).RelatedSel().One(v); err == nil {
+		return v, nil
+	}
+	return nil, err
+}
+
 // GetAllStatus retrieves all Status matches certain condition. Returns empty list if
 // no records exist
 func GetAllStatus(query map[string]string, fields []string, sortby []string, order []string,
