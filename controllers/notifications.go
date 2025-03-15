@@ -79,7 +79,7 @@ func (c *NotificationsController) Post() {
 
 				if notificationStatus, err := models.GetNotification_statusByCode(status); err == nil {
 					logs.Info("User is ", user)
-					notificationResp := models.Notifications{NotificationMessage: tnMessage, NotificationMessageId: nMessage, Category: category, Status: notificationStatus, Service: service, NotificationFor: user}
+					notificationResp := models.Notifications{NotificationMessage: tnMessage, NotificationMessageId: nMessage, Category: category, Status: notificationStatus, Service: service, NotificationFor: user, DateCreated: time.Now(), DateModified: time.Now()}
 
 					if _, err := models.AddNotifications(&notificationResp); err == nil {
 						c.Ctx.Output.SetStatus(200)

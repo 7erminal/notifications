@@ -469,8 +469,8 @@
         }
     },
     "definitions": {
-        "242.\u003cnil\u003e.0x140004cbbc0": {
-            "title": "0x140004cbbc0",
+        "242.\u003cnil\u003e.0x14000495338": {
+            "title": "0x14000495338",
             "type": "object"
         },
         "models.Notification_category": {
@@ -901,7 +901,7 @@
             "type": "object",
             "properties": {
                 "Notifications": {
-                    "$ref": "#/definitions/242.\u003cnil\u003e.0x140004cbbc0"
+                    "$ref": "#/definitions/242.\u003cnil\u003e.0x14000495338"
                 },
                 "StatusCode": {
                     "type": "integer",
