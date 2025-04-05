@@ -52,9 +52,29 @@ func GetNotificationsById(id int64) (v *Notifications, err error) {
 
 // GetOrderCount retrieves Items by Id. Returns error if
 // Id doesn't exist
-func GetNotificationCount(query map[string]string, user Users) (c int64, err error) {
+func GetNotificationCount(query map[string]string, search map[string]string, user Users) (c int64, err error) {
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(Notifications))
+
+	if len(search) > 0 {
+		cond := orm.NewCondition()
+		for k, v := range search {
+			// rewrite dot-notation to Object__Attribute
+			k = strings.Replace(k, ".", "__", -1)
+			if strings.Contains(k, "isnull") {
+				qs = qs.Filter(k, (v == "true" || v == "1"))
+			} else {
+				logs.Info("Adding or statement")
+				cond = cond.Or(k+"__icontains", v)
+
+				// qs = qs.Filter(k+"__icontains", v)
+
+			}
+		}
+		logs.Info("Condition set ", qs)
+		qs = qs.SetCond(cond)
+	}
+
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
 		k = strings.Replace(k, ".", "__", -1)
@@ -63,7 +83,7 @@ func GetNotificationCount(query map[string]string, user Users) (c int64, err err
 
 	qs.Filter("NotificationFor", user)
 
-	if c, err = qs.Count(); err == nil {
+	if c, err = qs.RelatedSel().Count(); err == nil {
 		return c, nil
 	}
 	return 0, err

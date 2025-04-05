@@ -168,6 +168,10 @@ paths:
         name: query
         description: Filter. e.g. col1:v1,col2:v2 ...
         type: string
+      - in: query
+        name: search
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
       responses:
         "200":
           description: ""
@@ -335,8 +339,8 @@ paths:
         "403":
           description: :id is not int
 definitions:
-  242.<nil>.0x14000495338:
-    title: "0x14000495338"
+  242.<nil>.0x140005211d0:
+    title: "0x140005211d0"
     type: object
   models.Notification_category:
     title: Notification_category
@@ -643,7 +647,7 @@ definitions:
     type: object
     properties:
       Notifications:
-        $ref: '#/definitions/242.<nil>.0x14000495338'
+        $ref: '#/definitions/242.<nil>.0x140005211d0'
       StatusCode:
         type: integer
         format: int64

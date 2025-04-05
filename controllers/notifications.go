@@ -207,18 +207,18 @@ func (c *NotificationsController) GetAll() {
 	}
 
 	// query: k:v,k:v
-	if v := c.GetString("exclude"); v != "" {
-		for _, cond := range strings.Split(v, ",") {
-			kv := strings.SplitN(cond, ":", 2)
-			if len(kv) != 2 {
-				c.Data["json"] = errors.New("Error: invalid query key/value pair")
-				c.ServeJSON()
-				return
-			}
-			k, v := kv[0], kv[1]
-			exclude[k] = v
-		}
-	}
+	// if v := c.GetString("exclude"); v != "" {
+	// 	for _, cond := range strings.Split(v, ",") {
+	// 		kv := strings.SplitN(cond, ":", 2)
+	// 		if len(kv) != 2 {
+	// 			c.Data["json"] = errors.New("Error: invalid query key/value pair")
+	// 			c.ServeJSON()
+	// 			return
+	// 		}
+	// 		k, v := kv[0], kv[1]
+	// 		exclude[k] = v
+	// 	}
+	// }
 	message := "An error occurred adding this audit request"
 	statusCode := 308
 
@@ -653,6 +653,7 @@ func (c *NotificationsController) Delete() {
 // @Title Get User notification count
 // @Description get notification count
 // @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
+// @Param	search	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
 // @Success 200 {object} responses.StringResponseDTO
 // @Failure 403 :id is empty
 // @router /count/:id [get]
@@ -662,6 +663,7 @@ func (c *NotificationsController) GetUserNotificationCount() {
 	id, _ := strconv.ParseInt(idStr, 0, 64)
 
 	var query = make(map[string]string)
+	var search = make(map[string]string)
 
 	// query: k:v,k:v
 	if v := c.GetString("query"); v != "" {
@@ -677,8 +679,22 @@ func (c *NotificationsController) GetUserNotificationCount() {
 		}
 	}
 
+	// search: k:v,k:v
+	if v := c.GetString("search"); v != "" {
+		for _, cond := range strings.Split(v, ",") {
+			kv := strings.SplitN(cond, ":", 2)
+			if len(kv) != 2 {
+				c.Data["json"] = errors.New("Error: invalid search key/value pair")
+				c.ServeJSON()
+				return
+			}
+			k, v := kv[0], kv[1]
+			search[k] = v
+		}
+	}
+
 	if user, err := models.GetUsersById(id); err == nil {
-		v, err := models.GetNotificationCount(query, *user)
+		v, err := models.GetNotificationCount(query, search, *user)
 		count := strconv.FormatInt(v, 10)
 
 		if err != nil {
