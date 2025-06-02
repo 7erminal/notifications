@@ -339,8 +339,8 @@ paths:
         "403":
           description: :id is not int
 definitions:
-  242.<nil>.0x14000490168:
-    title: "0x14000490168"
+  242.<nil>.0x14000492198:
+    title: "0x14000492198"
     type: object
   models.Notification_category:
     title: Notification_category
@@ -647,7 +647,7 @@ definitions:
     type: object
     properties:
       Notifications:
-        $ref: '#/definitions/242.<nil>.0x14000490168'
+        $ref: '#/definitions/242.<nil>.0x14000492198'
       StatusCode:
         type: integer
         format: int64
