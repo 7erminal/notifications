@@ -73,6 +73,7 @@ func (c *NotificationsController) Post() {
 					for i, mn := range configuredLabels {
 						logs.Info("Label:: ", mn)
 						logs.Info("Value:: ", v.Params[i])
+
 						tnMessage = strings.Replace(tnMessage, "["+mn+"]", v.Params[i], -1)
 					}
 				}
@@ -89,6 +90,7 @@ func (c *NotificationsController) Post() {
 						c.Data["json"] = resp
 					} else {
 						logs.Info("Error inserting notification ", err.Error())
+						// If error inserting notification, return error
 						message = "Error inserting notification"
 						statusCode = 608
 						resp := responses.NotificationResponse{StatusCode: statusCode, Notification: nil, StatusDesc: message}
@@ -96,6 +98,7 @@ func (c *NotificationsController) Post() {
 					}
 				} else {
 					logs.Info("Error getting notification ", err.Error())
+					// If error getting notification status, return error
 					message = "Error inserting notification. Invalid status."
 					statusCode = 608
 					resp := responses.NotificationResponse{StatusCode: statusCode, Notification: nil, StatusDesc: message}
