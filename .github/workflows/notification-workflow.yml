@@ -1,0 +1,30 @@
+name: Deploy Beego App
+
+on:
+  push:
+    branches:
+      - AMC_notifications
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: setup ssh
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
+      - name: Build
+        env:
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+          HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
+          sudo bash
+          cd /usr/app/report-service/
+          git pull https://x-access-token:$GIT_PASSWORD@github.com:7erminal/notifications.git main
+          bash -i -c "pm2 restart notification-service"
+          EOF
