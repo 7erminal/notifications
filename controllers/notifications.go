@@ -91,6 +91,7 @@ func (c *NotificationsController) Post() {
 					notificationResp := models.Notifications{NotificationMessage: tnMessage, NotificationMessageId: nMessage, Category: category, Status: notificationStatus, Service: service, NotificationFor: user, DateCreated: time.Now(), DateModified: time.Now()}
 
 					if _, err := models.AddNotifications(&notificationResp); err == nil {
+						logs.Info("Notification inserted successfully ", notificationResp)
 						c.Ctx.Output.SetStatus(200)
 						statusCode = 200
 						message = "Notification inserted successfully"
