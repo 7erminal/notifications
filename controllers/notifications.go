@@ -81,10 +81,14 @@ func (c *NotificationsController) Post() {
 			if nMessage, err := models.GetNotification_messagesByCodeAndStatus(*statusC, *service); err == nil {
 				tnMessage := nMessage.Message
 				configuredLabels := strings.Split(nMessage.Labels, ",")
+				logs.Info("Notification message found: ", tnMessage)
+				logs.Info("Configured labels: ", configuredLabels)
+				logs.Info("Params are ", v.Params)
 				// Insert values
 				if v.Params != nil {
 					for i, mn := range configuredLabels {
 						logs.Info("Label:: ", mn)
+						logs.Info("Count ", i)
 						logs.Info("Value:: ", v.Params[i])
 
 						tnMessage = strings.Replace(tnMessage, "["+mn+"]", v.Params[i], -1)
