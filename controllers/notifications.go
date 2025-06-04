@@ -45,24 +45,32 @@ func (c *NotificationsController) URLMapping() {
 func (c *NotificationsController) Post() {
 	var v requests.NotificationRequest
 	json.Unmarshal(c.Ctx.Input.RequestBody, &v)
+	logs.Info("Notification request received: ", v)
 
+	// Default values
 	status := "UNREAD"
 	message := "An error occurred adding this audit request"
 	statusCode := 308
 	var user *models.Users
+	logs.Info("About to get user by id ", v.UserId)
 	if user_, err := models.GetUsersById(v.UserId); err == nil {
 		user = user_
 	} else {
-		logs.Info("Error getting user ", err.Error())
+		logs.Error("Error getting user ", err.Error())
 		message = "Error getting user"
 		statusCode = 608
 		resp := responses.NotificationResponse{StatusCode: statusCode, Notification: nil, StatusDesc: message}
 		c.Data["json"] = resp
 	}
+	logs.Info("About to get service by name ", v.Service)
 	if service, err := models.GetServicesByName(v.Service); err == nil {
 		category, err := models.GetNotification_categoryByName(v.Category)
 		if err != nil {
-			logs.Info("Category fetched is ", category)
+			logs.Error("Error getting notification category ", err.Error())
+			message = "Error getting notification category"
+			statusCode = 608
+			resp := responses.NotificationResponse{StatusCode: statusCode, Notification: nil, StatusDesc: message}
+			c.Data["json"] = resp
 		}
 		if statusC, err := models.GetStatusByName(v.Status); err == nil {
 			if nMessage, err := models.GetNotification_messagesByCodeAndStatus(*statusC, *service); err == nil {
